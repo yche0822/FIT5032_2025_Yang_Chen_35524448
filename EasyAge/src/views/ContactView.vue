@@ -12,11 +12,37 @@
         </ul>
       </div>
     </div>
-    <div class="text-center mt-4 text-secondary">
-      We value your feedback and will respond as soon as possible.
+    <div class="text-center mt-4">
+      <label for="feedback" class="form-label">Leave us a message:</label>
+      <textarea id="feedback" v-model="message" class="form-control" rows="3" placeholder="Type your feedback here..."></textarea>
+      <div class="mt-2">
+        <button class="btn btn-primary me-2" @click="submitMessage" :disabled="!message.trim()">Submit</button>
+        <button class="btn btn-secondary" @click="clearMessage" :disabled="!message">Clear</button>
+      </div>
+      <div v-if="messages.length" class="mt-4">
+        <h5>Submitted Messages:</h5>
+        <ul class="list-group">
+          <li v-for="(msg, idx) in messages" :key="idx" class="list-group-item text-start">{{ msg }}</li>
+        </ul>
+      </div>
+      <div class="text-secondary mt-3">
+        We value your feedback and will respond as soon as possible.
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue'
+const message = ref('')
+const messages = ref([])
+function submitMessage() {
+  if (message.value.trim()) {
+    messages.value.unshift(message.value.trim())
+    message.value = ''
+  }
+}
+function clearMessage() {
+  message.value = ''
+}
 </script>
