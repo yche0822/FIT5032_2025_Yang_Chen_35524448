@@ -1,19 +1,24 @@
 <template>
-  <!-- Using Bootstrap's Header template (starter code) -->
-  <!-- https://getbootstrap.com/docs/5.0/examples/headers/ -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-      <router-link to="/" class="navbar-brand">Home (Week 5)</router-link>
-      <div class="navbar-nav">
-        <router-link v-if="isAuthenticated" to="/about" class="nav-link">About</router-link>
-        <router-link v-if="!isAuthenticated" to="/login" class="nav-link">Login</router-link>
-        <button 
-          v-if="isAuthenticated" 
-          @click="handleLogout" 
-          class="nav-link btn btn-link"
-        >
-          Logout
-        </button>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container-fluid">
+      <router-link to="/" class="navbar-brand fw-bold">EasyAge</router-link>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <router-link to="/" class="nav-link" active-class="active">Home</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/about" class="nav-link" active-class="active">About Me</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/contact" class="nav-link" active-class="active">Contact</router-link>
+          </li>
+        </ul>
+        <div class="d-flex">
+          <router-link v-if="!isAuthenticated" to="/login" class="btn btn-outline-primary me-2">Login</router-link>
+          <router-link v-if="!isAuthenticated" to="/register" class="btn btn-primary">Register</router-link>
+          <button v-if="isAuthenticated" @click="handleLogout" class="btn btn-danger">Logout</button>
+        </div>
       </div>
     </div>
   </nav>
@@ -76,21 +81,21 @@ const handleLogout = () => {
 }
 
 .navbar {
+  font-size: 1.1rem;
   padding: 0.8rem 1rem;
+  background-color: #e3f0fc !important;
 }
-
 .nav-link {
   font-weight: 500;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
-
 .nav-link:hover {
   opacity: 0.8;
 }
-
-.router-link-active {
+.router-link-active,
+.active {
   font-weight: bold;
 }
 </style>

@@ -11,6 +11,16 @@ import Aura from '@primevue/themes/aura'
 // import DataTable from 'primevue/datatable'
 // import Column from 'primevue/Column'
 
+// 初始化admin账号
+const initAdmin = () => {
+  let users = JSON.parse(localStorage.getItem('users') || '[]')
+  if (!users.find(u => u.username === 'admin')) {
+    users.push({ username: 'admin', password: 'admin123', role: 'admin' })
+    localStorage.setItem('users', JSON.stringify(users))
+  }
+}
+initAdmin()
+
 const app = createApp(App)
 app.use(PrimeVue, { theme: { preset: Aura } })
 app.use(router)

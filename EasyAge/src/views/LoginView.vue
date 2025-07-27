@@ -4,7 +4,7 @@
       <div class="col-md-6">
         <div class="card">
           <div class="card-header">
-            <h3 class="text-center">Library Login</h3>
+            <h3 class="text-center">EasyAge Login</h3>
           </div>
           <div class="card-body">
             <form @submit.prevent="handleLogin">
@@ -47,9 +47,17 @@ const password = ref('')
 const error = ref('')
 const router = useRouter()
 
+const xssPattern = /[<>"'`\\]/
 const handleLogin = () => {
-  if (username.value === 'admin' && password.value === 'password') {
+  if (xssPattern.test(username.value) || xssPattern.test(password.value)) {
+    error.value = 'Invalid characters detected.'
+    return
+  }
+  let users = JSON.parse(localStorage.getItem('users') || '[]')
+  const user = users.find(u => u.username === username.value && u.password === password.value)
+  if (user) {
     localStorage.setItem('isAuthenticated', 'true')
+    localStorage.setItem('currentUser', JSON.stringify(user))
     window.dispatchEvent(new Event('storage'))
     router.push('/about')
   } else {
