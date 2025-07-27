@@ -11,7 +11,6 @@ import Aura from '@primevue/themes/aura'
 // import DataTable from 'primevue/datatable'
 // import Column from 'primevue/Column'
 
-// 初始化admin账号
 const initAdmin = () => {
   let users = JSON.parse(localStorage.getItem('users') || '[]')
   if (!users.find(u => u.username === 'admin')) {

@@ -1,3 +1,4 @@
+import WebsiteRatingView from '../views/WebsiteRatingView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
@@ -5,8 +6,15 @@ import LoginView from '../views/LoginView.Vue'
 import RegisterView from '../views/RegisterView.vue'
 import AccessDenied from '../views/AccessDenied.vue'
 import ContactView from '../views/ContactView.vue'
+import ManagerView from '../views/ManagerView.vue'
 
 const routes = [
+  {
+    path: '/rate',
+    name: 'WebsiteRating',
+    component: WebsiteRatingView,
+    meta: { requiresAuth: true }
+  },
   {
     path: '/',
     name: 'Home',
@@ -15,8 +23,7 @@ const routes = [
   {
     path: '/about',
     name: 'About',
-    component: AboutView,
-    meta: {requiresAuth: true}
+    component: AboutView
   },
   {
     path: '/login',
@@ -31,11 +38,17 @@ const routes = [
   {
     path: '/contact',
     name: 'Contact',
-    component: ContactView,
-    meta: { requiresAuth: true }
+    component: ContactView
   },
   {
-    path: '/access-denied',
+    path: '/manager',
+    name: 'Manager',
+    component: ManagerView,
+    meta: { requiresAuth: true, adminOnly: true }
+  },
+
+  {
+    path: '/deny',
     name: 'AccessDenied',
     component: AccessDenied
   }
@@ -51,12 +64,15 @@ router.beforeEach((to, from, next) => {
   const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null')
 
   if (to.meta.requiresAuth && !isAuthenticated) {
-    next('/access-denied')
+    next('/deny')
     return
   }
-  // 只有访问about页面时才校验admin权限
-  if (to.name === 'About' && (!currentUser || currentUser.role !== 'admin')) {
-    next('/access-denied')
+  if (to.meta.adminOnly && (!currentUser || currentUser.role !== 'admin')) {
+    next('/deny')
+    return
+  }
+  if (to.path === '/rate' && !isAuthenticated) {
+    next('/deny')
     return
   }
   next()

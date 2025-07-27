@@ -1,36 +1,36 @@
 <script setup>
 import { ref } from 'vue'
+import mobileImg from '@/assets/images/mobile.jpg'
+import medicalImg from '@/assets/images/medical.png'
+import volunteerImg1 from '@/assets/images/volunteer1.jpg'
+import volunteerImg2 from '@/assets/images/volunteer2.jpg'
 
-// 新闻数据
 const newsList = [
   {
     id: 'news1',
-    title: 'The community organized a health lecture to care for the physical and mental well-being of the elderly.',
-    date: '2025-07-20',
-    img: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
-    desc: 'This week, the community center held a health lecture, which attracted many elderly participants, creating a lively atmosphere on-site.'
+    title: 'Elderly Tech Day: Seniors Embrace Smart Devices',
+    date: '2024-01-22',
+    img: mobileImg,
+    desc: 'A special event was held to help seniors learn to use smartphones and tablets, making daily life more convenient and connected.'
   },
   {
     id: 'news2',
-    title: 'The volunteer companionship program warmed hearts.',
-    date: '2025-07-18',
-    img: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
-    desc: 'The volunteer team visited the community, offering companionship and care to the elderly, spreading warmth to their lives'
+    title: 'Volunteer Medical Checkups Bring Care to Seniors',
+    date: '2025-07-25',
+    img: medicalImg,
+    desc: 'A team of volunteers and doctors visited the community to provide free health checkups and consultations for elderly residents, promoting wellness and care.'
   }
 ]
 
-// 评分相关
 const ratings = ref({})
 const userRatings = ref({})
 const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null')
 
-// 加载所有新闻的评分
 function loadRatings() {
   const all = {}
   newsList.forEach(news => {
     const arr = JSON.parse(localStorage.getItem('rating_' + news.id) || '[]')
     all[news.id] = arr
-    // 当前用户的评分
     if (currentUser) {
       const userRate = arr.find(r => r.username === currentUser.username)
       if (userRate) userRatings.value[news.id] = userRate.score
@@ -56,7 +56,6 @@ function setRating(newsId, score) {
     return
   }
   let arr = JSON.parse(localStorage.getItem('rating_' + newsId) || '[]')
-  // 移除当前用户旧评分
   arr = arr.filter(r => r.username !== currentUser.username)
   arr.push({ username: currentUser.username, score })
   localStorage.setItem('rating_' + newsId, JSON.stringify(arr))
@@ -76,7 +75,7 @@ loadRatings()
           <div v-for="news in newsList" :key="news.id" class="news-item mb-3 p-3 bg-white rounded shadow-sm">
             <h5 v-text="news.title"></h5>
             <p class="mb-1" v-text="news.date"></p>
-            <img :src="news.img" alt="news image" class="img-fluid rounded mb-2" style="max-height: 180px;">
+            <img :src="news.img" alt="news image" class="img-fluid rounded mb-2 news-main-img">
             <p v-text="news.desc"></p>
             <div class="d-flex align-items-center mt-2">
               <span class="me-2">Average Rating: <b>{{ getAvg(news.id) }}</b></span>
@@ -93,8 +92,8 @@ loadRatings()
       </div>
       <div class="col-md-4">
         <h2>Volunteers in Action</h2>
-        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80" alt="志愿者" class="img-fluid rounded shadow mb-3">
-        <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=400&q=80" alt="志愿者2" class="img-fluid rounded shadow">
+        <img :src="volunteerImg1" alt="Volunteer helping senior" class="img-fluid rounded shadow mb-3">
+        <img :src="volunteerImg2" alt="Volunteer group" class="img-fluid rounded shadow">
       </div>
     </div>
   </div>
@@ -107,9 +106,14 @@ loadRatings()
 .news-list {
   margin-top: 1rem;
 }
-.news-item img {
+.news-main-img {
   width: 100%;
+  max-width: 480px;
+  max-height: 260px;
   object-fit: cover;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 .card {
   border: 1px solid #ccc;

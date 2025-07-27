@@ -5,7 +5,7 @@
       Welcome to our EasyAge! We are dedicated to providing comprehensive welfare services for seniors.
     </p>
     <div v-if="isAuthenticated" class="alert alert-success mt-4">
-      Welcome back, admin!
+      Welcome back!
     </div>
   </div>
 </template>

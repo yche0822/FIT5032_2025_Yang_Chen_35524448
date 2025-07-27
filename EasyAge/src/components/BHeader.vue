@@ -8,10 +8,16 @@
             <router-link to="/" class="nav-link" active-class="active">Home</router-link>
           </li>
           <li class="nav-item">
+            <router-link to="/contact" class="nav-link" active-class="active">Contact</router-link>
+          </li>
+          <li class="nav-item">
             <router-link to="/about" class="nav-link" active-class="active">About Me</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/contact" class="nav-link" active-class="active">Contact</router-link>
+            <router-link to="/rate" class="nav-link" active-class="active">Rate Us</router-link>
+          </li>
+          <li class="nav-item" v-if="isAuthenticated && isAdmin">
+            <router-link to="/manager" class="nav-link" active-class="active">Website Manager</router-link>
           </li>
         </ul>
         <div class="d-flex">
@@ -35,7 +41,17 @@ window.addEventListener('storage', () => {
   authState.value = localStorage.getItem('isAuthenticated') === 'true'
 })
 
+
 const isAuthenticated = computed(() => authState.value)
+const isAdmin = computed(() => {
+  if (!isAuthenticated.value) return false;
+  try {
+    const user = JSON.parse(localStorage.getItem('currentUser'))
+    return user && user.role === 'admin'
+  } catch {
+    return false
+  }
+})
 
 const handleLogout = () => {
   localStorage.removeItem('isAuthenticated')

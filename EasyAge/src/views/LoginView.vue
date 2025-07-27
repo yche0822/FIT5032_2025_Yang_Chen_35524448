@@ -59,7 +59,7 @@ const handleLogin = () => {
     localStorage.setItem('isAuthenticated', 'true')
     localStorage.setItem('currentUser', JSON.stringify(user))
     window.dispatchEvent(new Event('storage'))
-    router.push('/about')
+      router.push('/')
   } else {
     error.value = 'Invalid username or password'
   }

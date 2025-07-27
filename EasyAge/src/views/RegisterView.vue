@@ -10,35 +10,40 @@
             <form @submit.prevent="handleRegister">
               <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  id="username" 
-                  v-model="username"
-                  required
-                >
+<input 
+  type="text" 
+  class="form-control" 
+  id="username" 
+  v-model="username"
+  @input="validateFields"
+  required
+>
+<div v-if="usernameError" class="form-text text-danger small">{{ usernameError }}</div>
               </div>
               <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input 
-                  type="password" 
-                  class="form-control" 
-                  id="password" 
-                  v-model="password"
-                  required
-                >
+<input 
+  type="password" 
+  class="form-control" 
+  id="password" 
+  v-model="password"
+  @input="validateFields"
+  required
+>
+<div v-if="passwordError" class="form-text text-danger small">{{ passwordError }}</div>
               </div>
               <div class="mb-3">
                 <label for="confirmPassword" class="form-label">Confirm Password</label>
-                <input 
-                  type="password" 
-                  class="form-control" 
-                  id="confirmPassword" 
-                  v-model="confirmPassword"
-                  required
-                >
+<input 
+  type="password" 
+  class="form-control" 
+  id="confirmPassword" 
+  v-model="confirmPassword"
+  @input="validateFields"
+  required
+>
+<div v-if="confirmPasswordError" class="form-text text-danger small">{{ confirmPasswordError }}</div>
               </div>
-              <!-- 角色选择移除，只能注册为user -->
               <div v-if="error" class="alert alert-danger">{{ error }}</div>
               <div v-if="success" class="alert alert-success">{{ success }}</div>
               <button type="submit" class="btn btn-primary w-100">Register</button>
@@ -62,26 +67,38 @@ const success = ref('')
 const role = ref('user')
 const router = useRouter()
 
+const usernameError = ref('')
+const passwordError = ref('')
+const confirmPasswordError = ref('')
 const xssPattern = /[<>"'`\\]/
+
+function validateFields() {
+  usernameError.value = ''
+  passwordError.value = ''
+  confirmPasswordError.value = ''
+  error.value = ''
+  if (username.value.length < 3) {
+    usernameError.value = 'Username must be at least 3 characters.'
+  } else if (xssPattern.test(username.value)) {
+    usernameError.value = 'Invalid characters detected.'
+  }
+  if (password.value.length < 6) {
+    passwordError.value = 'Password must be at least 6 characters.'
+  } else if (!/\d/.test(password.value)) {
+    passwordError.value = 'Password must contain at least one number.'
+  } else if (xssPattern.test(password.value)) {
+    passwordError.value = 'Invalid characters detected.'
+  }
+  if (password.value !== confirmPassword.value) {
+    confirmPasswordError.value = 'Passwords do not match.'
+  }
+}
+
 const handleRegister = () => {
   error.value = ''
   success.value = ''
-  if (username.value.length < 3) {
-    error.value = 'Username must be at least 3 characters.'
-    return
-  }
-  if (password.value.length < 6) {
-    error.value = 'Password must be at least 6 characters.'
-    return
-  }
-  if (xssPattern.test(username.value) || xssPattern.test(password.value)) {
-    error.value = 'Invalid characters detected.'
-    return
-  }
-  if (password.value !== confirmPassword.value) {
-    error.value = 'Passwords do not match.'
-    return
-  }
+  validateFields()
+  if (usernameError.value || passwordError.value || confirmPasswordError.value) return
   let users = JSON.parse(localStorage.getItem('users') || '[]')
   if (users.find(u => u.username === username.value)) {
     error.value = 'Username already exists.'
