@@ -101,7 +101,7 @@ export default {
         }
     },
     created() {
-        // Check for city in URL on load
+        // Check for city in URL on load cy
         const params = new URLSearchParams(window.location.search);
         const cityParam = params.get('city');
         if (cityParam) {
