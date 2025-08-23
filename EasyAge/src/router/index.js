@@ -7,13 +7,15 @@ import RegisterView from '../views/RegisterView.vue'
 import AccessDenied from '../views/AccessDenied.vue'
 import ContactView from '../views/ContactView.vue'
 import ManagerView from '../views/ManagerView.vue'
+import ServerlessDemo from '../components/ServerlessDemo.vue'
+import MapView from '../views/MapView.vue'
 
 const routes = [
   {
     path: '/rate',
     name: 'WebsiteRating',
     component: WebsiteRatingView,
-    meta: { requiresAuth: true }
+    // meta: { requiresAuth: true }
   },
   {
     path: '/',
@@ -46,11 +48,19 @@ const routes = [
     component: ManagerView,
     meta: { requiresAuth: true, adminOnly: true }
   },
-
   {
     path: '/deny',
     name: 'AccessDenied',
     component: AccessDenied
+  },
+   {
+    path: '/serverless',
+    name: 'ServerlessDemo',
+    component: ServerlessDemo
+  },
+  { path: '/map', 
+    name: 'MapView', 
+    component: MapView 
   }
 ]
 

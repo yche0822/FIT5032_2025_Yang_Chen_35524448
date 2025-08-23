@@ -17,6 +17,12 @@
             <router-link to="/rate" class="nav-link" active-class="active">Rate Us</router-link>
           </li>
           <li class="nav-item">
+            <router-link to="/serverless" class="nav-link" active-class="active">Serverless Demo</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/map" class="nav-link" active-class="active">Map</router-link>
+          </li>
+          <li class="nav-item">
             <router-link to="/manager" class="nav-link" active-class="active">Website Manager</router-link>
           </li>
         </ul>
