@@ -9,6 +9,7 @@ import ContactView from '../views/ContactView.vue'
 import ManagerView from '../views/ManagerView.vue'
 import ServerlessDemo from '../components/ServerlessDemo.vue'
 import MapView from '../views/MapView.vue'
+import CalendarView from '../views/CalendarView.vue'
 
 const routes = [
   {
@@ -60,6 +61,12 @@ const routes = [
   { path: '/map', 
     name: 'MapView', 
     component: MapView 
+  },
+  {
+    path: '/calendar',
+    name: 'CalendarView',
+    component: CalendarView,
+    meta: { title: 'Appointments' }
   }
 ]
 

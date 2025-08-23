@@ -23,6 +23,9 @@
             <router-link to="/map" class="nav-link" active-class="active">Map</router-link>
           </li>
           <li class="nav-item">
+             <router-link to="/calendar" class="nav-link" active-class="active">Calendar</router-link>
+          </li>
+          <li class="nav-item" v-if="isAdmin">
             <router-link to="/manager" class="nav-link" active-class="active">Website Manager</router-link>
           </li>
         </ul>

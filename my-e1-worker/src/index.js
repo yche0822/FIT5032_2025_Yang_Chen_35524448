@@ -14,7 +14,7 @@ export default {
       });
     }
 
-    // ----- 根路径欢迎页 -----
+
     if (url.pathname === "/" && request.method === "GET") {
       return new Response(
         JSON.stringify({
@@ -66,7 +66,7 @@ export default {
       }
     }
 
-    // ----- 未匹配的路由 -----
+
     return new Response(
       JSON.stringify({ error: "Not Found" }),
       {
