@@ -1,0 +1,25 @@
+:focus-visible { outline:3px solid #1e40af; outline-offset:2px; }
+
+.sr-only {
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+
+
+:root {
+  --text:#111; --bg:#fff;
+  --primary:#2563eb; --primary-contrast:#fff;
+  --danger:#b91c1c;
+}
+html,body { color:var(--text); background:var(--bg); }
+
+button.btn-primary {
+  background:var(--primary);
+  color:var(--primary-contrast);
+  border:2px solid var(--primary);
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+}

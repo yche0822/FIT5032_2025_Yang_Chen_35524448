@@ -38,6 +38,7 @@ function tryLocalLogin(identifier, pwd) {
     email: u.email || `${u.username}@local`,
     role: u.role || 'user'
   }))
+  window.dispatchEvent(new Event('auth-changed'))
   return { ok: true }
 }
 
@@ -71,6 +72,7 @@ const onLogin = async () => {
       email: cred.user.email,
       role
     }))
+    window.dispatchEvent(new Event('auth-changed'))
 
     const redirect = route.query.redirect || '/'
     router.push(String(redirect))

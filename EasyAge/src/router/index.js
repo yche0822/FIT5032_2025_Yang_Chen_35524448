@@ -15,7 +15,6 @@ const routes = [
     path: '/rate',
     name: 'WebsiteRating',
     component: WebsiteRatingView,
-    // meta: { requiresAuth: true }
   },
   {
     path: '/',
@@ -81,11 +80,19 @@ router.beforeEach((to, from, next) => {
     next('/deny')
     return
   }
-  if (to.path === '/rate' && !isAuthenticated) {
-    next('/deny')
-    return
-  }
   next()
+})
+
+router.afterEach((to) => {
+  requestAnimationFrame(() => {
+    const main = document.getElementById('main-content')
+    if (main) main.focus()
+
+    if (to.meta?.title) document.title = `${to.meta.title} · EasyAge`
+
+    const announcer = document.getElementById('route-announcer')
+    if (announcer) announcer.textContent = `${to.meta?.title || to.name || 'Page'} loaded`
+  })
 })
 
 export default router

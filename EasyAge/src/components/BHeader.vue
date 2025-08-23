@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm" role="navigation" aria-label="Primary">
     <div class="container-fluid">
       <router-link to="/" class="navbar-brand fw-bold">EasyAge</router-link>
       <div class="collapse navbar-collapse">
@@ -50,44 +50,43 @@ const computeAdminFromStorage = () => {
   try {
     const user = JSON.parse(localStorage.getItem('currentUser'))
     isAdmin.value = user?.role === 'admin'
-  } catch {
-    isAdmin.value = false
-  }
+  } catch { isAdmin.value = false }
+}
+
+const refreshAuth = () => {
+
+  const localAuth = localStorage.getItem('isAuthenticated') === 'true'
+  isLoggedIn.value = localAuth || !!auth.currentUser
+  computeAdminFromStorage()
 }
 
 let unsubscribe = null
 
 onMounted(() => {
-  unsubscribe = onAuthStateChanged(auth, (user) => {
-    if (user) {
-      isLoggedIn.value = true
-      computeAdminFromStorage()
-    } else {
-      const isAuth = localStorage.getItem('isAuthenticated') === 'true'
-      isLoggedIn.value = isAuth
-      computeAdminFromStorage()
-    }
+
+  unsubscribe = onAuthStateChanged(auth, () => {
+    refreshAuth()
   })
-  const onStorage = () => {
-    const isAuth = localStorage.getItem('isAuthenticated') === 'true'
-    isLoggedIn.value = isAuth
-    computeAdminFromStorage()
-  }
-  window.addEventListener('storage', onStorage)
-  onBeforeUnmount(() => {
-    if (unsubscribe) unsubscribe()
-    window.removeEventListener('storage', onStorage)
-  })
+
+
+  window.addEventListener('auth-changed', refreshAuth)
+
+
+  refreshAuth()
 })
 
+onBeforeUnmount(() => {
+  if (unsubscribe) unsubscribe()
+  window.removeEventListener('auth-changed', refreshAuth)
+})
+
+
 const handleLogout = async () => {
-  try {
-    await signOut(auth)
-  } catch (e) {}
+  try { await signOut(auth) } catch (e) { /* ignore */ }
   localStorage.removeItem('isAuthenticated')
   localStorage.removeItem('currentUser')
-  isLoggedIn.value = false
-  isAdmin.value = false
+
+  window.dispatchEvent(new Event('auth-changed'))
   router.push('/login')
 }
 </script>

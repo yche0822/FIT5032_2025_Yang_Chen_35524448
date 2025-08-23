@@ -1,12 +1,26 @@
-<!DOCTYPE html>
-<html lang="">
+<!doctype html>
+<html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vite App</title>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>EasyAge</title>
+    <style>
+      .skip-link {
+        position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+      }
+      .skip-link:focus {
+        position:fixed; left:16px; top:16px; width:auto; height:auto;
+        padding:.5rem 1rem; background:#111; color:#fff; border-radius:.375rem; z-index:9999;
+      }
+
+      :focus-visible { outline:3px solid #1e40af; outline-offset:2px; }
+    </style>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
