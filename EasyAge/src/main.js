@@ -11,6 +11,13 @@ import Aura from '@primevue/themes/aura'
 // import DataTable from 'primevue/datatable'
 // import Column from 'primevue/Column'
 
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
+import InputText from 'primevue/inputtext'
+import IconField from 'primevue/iconfield'
+import InputIcon from 'primevue/inputicon'
+import MultiSelect from 'primevue/multiselect'
+
 const initAdmin = () => {
   let users = JSON.parse(localStorage.getItem('users') || '[]')
   if (!users.find(u => u.username === 'admin')) {
@@ -24,6 +31,12 @@ const app = createApp(App)
 app.use(PrimeVue, { theme: { preset: Aura } })
 app.use(router)
 
+app.component('DataTable', DataTable)
+app.component('Column', Column)
+app.component('InputText', InputText)
+app.component('IconField', IconField)
+app.component('InputIcon', InputIcon)
+app.component('MultiSelect', MultiSelect)
 // app.component('DataTable', DataTable)
 // app.component('Column', Column)
 

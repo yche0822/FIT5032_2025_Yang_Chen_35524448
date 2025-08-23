@@ -16,14 +16,14 @@
           <li class="nav-item">
             <router-link to="/rate" class="nav-link" active-class="active">Rate Us</router-link>
           </li>
-          <li class="nav-item" v-if="isAuthenticated && isAdmin">
+          <li class="nav-item">
             <router-link to="/manager" class="nav-link" active-class="active">Website Manager</router-link>
           </li>
         </ul>
         <div class="d-flex">
-          <router-link v-if="!isAuthenticated" to="/login" class="btn btn-outline-primary me-2">Login</router-link>
-          <router-link v-if="!isAuthenticated" to="/register" class="btn btn-primary">Register</router-link>
-          <button v-if="isAuthenticated" @click="handleLogout" class="btn btn-danger">Logout</button>
+          <router-link v-if="!isLoggedIn" to="/login" class="btn btn-outline-primary me-2">Login</router-link>
+          <router-link v-if="!isLoggedIn" to="/register" class="btn btn-primary">Register</router-link>
+          <button v-if="isLoggedIn" @click="handleLogout" class="btn btn-danger">Logout</button>
         </div>
       </div>
     </div>
@@ -31,71 +31,62 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
+import { onAuthStateChanged, signOut } from 'firebase/auth'
+import { auth } from '@/firebase'
 
 const router = useRouter()
-const authState = ref(localStorage.getItem('isAuthenticated') === 'true')
+const isLoggedIn = ref(false)
+const isAdmin = ref(false)
 
-window.addEventListener('storage', () => {
-  authState.value = localStorage.getItem('isAuthenticated') === 'true'
-})
-
-
-const isAuthenticated = computed(() => authState.value)
-const isAdmin = computed(() => {
-  if (!isAuthenticated.value) return false;
+const computeAdminFromStorage = () => {
   try {
     const user = JSON.parse(localStorage.getItem('currentUser'))
-    return user && user.role === 'admin'
+    isAdmin.value = user?.role === 'admin'
   } catch {
-    return false
+    isAdmin.value = false
   }
+}
+
+let unsubscribe = null
+
+onMounted(() => {
+  unsubscribe = onAuthStateChanged(auth, (user) => {
+    if (user) {
+      isLoggedIn.value = true
+      computeAdminFromStorage()
+    } else {
+      const isAuth = localStorage.getItem('isAuthenticated') === 'true'
+      isLoggedIn.value = isAuth
+      computeAdminFromStorage()
+    }
+  })
+  const onStorage = () => {
+    const isAuth = localStorage.getItem('isAuthenticated') === 'true'
+    isLoggedIn.value = isAuth
+    computeAdminFromStorage()
+  }
+  window.addEventListener('storage', onStorage)
+  onBeforeUnmount(() => {
+    if (unsubscribe) unsubscribe()
+    window.removeEventListener('storage', onStorage)
+  })
 })
 
-const handleLogout = () => {
+const handleLogout = async () => {
+  try {
+    await signOut(auth)
+  } catch (e) {}
   localStorage.removeItem('isAuthenticated')
-  authState.value = false
-  router.push('/')
+  localStorage.removeItem('currentUser')
+  isLoggedIn.value = false
+  isAdmin.value = false
+  router.push('/login')
 }
 </script>
 
 <style scoped>
-.b-example-divider {
-  height: 3rem;
-  background-color: rgba(0, 0, 0, 0.1);
-  border: solid rgba(0, 0, 0, 0.15);
-  border-width: 1px 0;
-  box-shadow:
-    inset 0 0.5em 1.5em rgba(0, 0, 0, 0.1),
-    inset 0 0.125em 0.5em rgba(0, 0, 0, 0.15);
-}
-
-.form-control-dark {
-  color: #fff;
-  background-color: var(--bs-dark);
-  border-color: var(--bs-gray);
-}
-.form-control-dark:focus {
-  color: #fff;
-  background-color: var(--bs-dark);
-  border-color: #fff;
-  box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
-}
-
-.bi {
-  vertical-align: -0.125em;
-  fill: currentColor;
-}
-
-.text-small {
-  font-size: 85%;
-}
-
-.dropdown-toggle {
-  outline: 0;
-}
-
 .navbar {
   font-size: 1.1rem;
   padding: 0.8rem 1rem;
