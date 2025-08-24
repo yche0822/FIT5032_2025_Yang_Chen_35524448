@@ -1,6 +1,6 @@
 <template>
   <div class="map-page">
-    <h2>Map & Geo Features</h2>
+    <h1>Map & Geo Features</h1>
 
     <div class="controls">
       <div class="row">
@@ -37,7 +37,7 @@
 
     <section class="logs">
       <div class="logs-header">
-        <h3>Route History</h3>
+        <h2>Route History</h2>
         <div class="actions">
           <button class="btn outline" @click="exportCSV">Export CSV</button>
           <button class="btn outline" @click="exportPDF">Export PDF</button>

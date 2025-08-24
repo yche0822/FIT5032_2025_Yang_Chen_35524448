@@ -70,10 +70,10 @@ loadRatings()
   <div class="container mt-5">
     <div class="row mb-4">
       <div class="col-md-8">
-        <h2>Elderly News</h2>
+        <h1>Elderly News</h1>
         <div class="news-list">
           <div v-for="news in newsList" :key="news.id" class="news-item mb-3 p-3 bg-white rounded shadow-sm">
-            <h5 v-text="news.title"></h5>
+            <h2 v-text="news.title"></h2>
             <p class="mb-1" v-text="news.date"></p>
             <img :src="news.img" alt="news image" class="img-fluid rounded mb-2 news-main-img">
             <p v-text="news.desc"></p>
@@ -91,7 +91,7 @@ loadRatings()
         </div>
       </div>
       <div class="col-md-4">
-        <h2>Volunteers in Action</h2>
+        <h1>Volunteers in Action</h1>
         <img :src="volunteerImg1" alt="Volunteer helping senior" class="img-fluid rounded shadow mb-3">
         <img :src="volunteerImg2" alt="Volunteer group" class="img-fluid rounded shadow">
       </div>

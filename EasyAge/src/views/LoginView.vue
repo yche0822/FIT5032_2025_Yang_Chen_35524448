@@ -86,7 +86,7 @@ const onLogin = async () => {
 
 <template>
   <div class="container py-5" style="max-width: 480px">
-    <h3 class="mb-4">Login</h3>
+    <h1 class="mb-4">Login</h1>
 
     <div class="mb-3">
       <label class="form-label">Email or Username</label>

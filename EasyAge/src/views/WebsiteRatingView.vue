@@ -1,6 +1,6 @@
 <template>
   <div class="container rateus">
-    <h2 class="mb-3">Rate Our Website</h2>
+    <h1 class="mb-3">Rate Our Website</h1>
 
     <p id="rateHelp" class="sr-only">
       Choose a rating from 1 to 5 stars. Use arrow keys to change and Space/Enter to confirm.
@@ -150,8 +150,6 @@ const updateChart = () => {
 
 onBeforeUnmount(() => { chart?.destroy() })
 
-// 如果你想让用户进入页面时看到自己已评分的星级，可在 auth 变化时读取自己的文档：
-// （非必须，因为 setDoc + 订阅会覆盖）
 // onAuthStateChanged(auth, async u => { if (u) { const snap = await getDoc(doc(db,'ratings',u.uid)); tempRating.value = snap.exists()? Number(snap.data().score) : 0 } })
 </script>
 

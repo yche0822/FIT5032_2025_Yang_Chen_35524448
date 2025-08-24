@@ -10,6 +10,7 @@ import ManagerView from '../views/ManagerView.vue'
 import ServerlessDemo from '../components/ServerlessDemo.vue'
 import MapView from '../views/MapView.vue'
 import CalendarView from '../views/CalendarView.vue'
+import EmailView from '../views/EmailView.vue'
 
 const routes = [
   {
@@ -67,6 +68,11 @@ const routes = [
     name: 'CalendarView',
     component: CalendarView,
     meta: { title: 'Appointments' }
+  },
+  {
+    path: '/email',
+    name: 'EmailView',
+    component: EmailView
   }
 ]
 

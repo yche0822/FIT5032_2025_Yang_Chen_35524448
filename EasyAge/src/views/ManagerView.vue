@@ -35,7 +35,7 @@
 
     <!-- Global search -->
     <div class="d-flex align-items-center justify-content-between mb-3">
-      <h3 class="m-0">Website Manager Dashboard</h3>
+      <h1 class="m-0">Website Manager Dashboard</h1>
       <IconField>
         <InputIcon class="pi pi-search" />
         <InputText v-model="globalFilter" placeholder="Global search" />
@@ -45,7 +45,7 @@
     <!-- Table 1: Users -->
     <section class="mb-5">
       <div class="d-flex align-items-center justify-content-between mb-2">
-        <h5 class="m-0">Users Table</h5>
+        <h1 class="m-0">Users Table</h1>
         <small class="text-muted">Sortable · Global search · Column filters · 10 rows/page</small>
       </div>
 
@@ -71,7 +71,7 @@
     <!-- Table 2: Websites -->
     <section class="mb-5">
       <div class="d-flex align-items-center justify-content-between mb-2">
-        <h5 class="m-0">Websites Table</h5>
+        <h1 class="m-0">Websites Table</h1>
         <small class="text-muted">Sortable · Global search · Column filters · 10 rows/page</small>
       </div>
 
@@ -98,7 +98,7 @@
     <!-- Latest Appointments -->
     <section>
       <div class="d-flex align-items-center justify-content-between mb-2">
-        <h5 class="m-0">Latest Appointments</h5>
+        <h1 class="m-0">Latest Appointments</h1>
         <small class="text-muted">Top 5 (most recent)</small>
       </div>
       <ul class="list-group">

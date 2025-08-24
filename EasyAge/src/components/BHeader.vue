@@ -17,6 +17,9 @@
             <router-link to="/rate" class="nav-link" active-class="active">Rate Us</router-link>
           </li>
           <li class="nav-item">
+            <router-link to="/email" class="nav-link" active-class="active">Email Send</router-link>
+          </li>          
+          <li class="nav-item">
             <router-link to="/serverless" class="nav-link" active-class="active">Serverless Demo</router-link>
           </li>
           <li class="nav-item">

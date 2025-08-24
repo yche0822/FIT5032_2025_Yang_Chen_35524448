@@ -1,7 +1,7 @@
 <!-- src/views/CalendarView.vue -->
 <template>
   <div>
-    <h2 class="mb-3">Appointments</h2>
+    <h1 class="mb-3">Appointments</h1>
     <p class="mb-2">
       Status:
       <strong :style="{ color: isOnline ? 'green' : 'gray' }">
@@ -15,11 +15,10 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 
-// Firestore：确保 src/firebase.js 导出 db = getFirestore(app)
+
 import { db } from '@/firebase'
 import { collection, addDoc, onSnapshot, query, orderBy } from 'firebase/firestore'
 
-// FullCalendar v6：使用命名导出；核心包不需要引入 CSS
 // import '@fullcalendar/daygrid/main.css'
 // import '@fullcalendar/timegrid/main.css'
 import { Calendar } from '@fullcalendar/core'
@@ -54,7 +53,7 @@ const hasConflict = (start, end) => {
   return (calendar?.getEvents() || []).some(ev => {
     const es = ev.start.getTime()
     const ee = (ev.end || ev.start).getTime()
-    return s < ee && e > es // 区间重叠则冲突
+    return s < ee && e > es
   })
 }
 
@@ -72,7 +71,7 @@ const flushOffline = async () => {
   const arr = JSON.parse(localStorage.getItem(OFFLINE_KEY) || '[]')
   if (!arr.length) return
   for (const p of arr) {
-    try { await persistOnline(p) } catch { /* ignore; 失败保留 */ }
+    try { await persistOnline(p) } catch { /* ignore */ }
   }
   localStorage.removeItem(OFFLINE_KEY)
 }

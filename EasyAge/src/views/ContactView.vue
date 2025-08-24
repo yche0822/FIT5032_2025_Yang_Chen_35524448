@@ -20,7 +20,7 @@
         <button class="btn btn-secondary" @click="clearMessage" :disabled="!message">Clear</button>
       </div>
       <div v-if="messages.length" class="mt-4">
-        <h5>Submitted Messages:</h5>
+        <h2>Submitted Messages:</h2>
         <ul class="list-group">
           <li v-for="(msg, idx) in messages" :key="idx" class="list-group-item text-start">{{ msg }}</li>
         </ul>
